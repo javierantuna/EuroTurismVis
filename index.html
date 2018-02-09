@@ -9,6 +9,10 @@
 
 <body>
   <script>
+	d3.csv('data/arrival.csv', function(data) {
+      // Charger les donnees
+    });
+	
     var svg = d3.select("body").append("svg")
       .attr("width", 960)
       .attr("height", 500)
