@@ -1,49 +1,53 @@
 <!DOCTYPE html>
 <head>
-    <title>Arrivals and departures in the chosen year</title>
+    <title>EuroTurismVis</title>
     <div>
         <span id="year">YEAR</span>
         <input type="range" id="rangeInput" name="rangeInput" min="1995" max="2015" value="1995" onchange="updateTextInput(this.value);">
         <input type="text" id="textInput" value="1998">
+        <span id="title" class="text-center" style="font-size: 35px; font-weight: bold; color: blue; align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tourism In Europe</span>
     </div>
-    <div class="chart-example" id="chart1" style="display: inline-block; background-color: White;"><svg></svg></div>
-    <div class="chart-example" id="chart2" style="display: inline-block; background-color: White;"><svg></svg></div>
     <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
 
 <body>
-<script>
-    var simulation;
-    function updateTextInput(val) { //Para mostrar el año en el slider
-        document.getElementById('textInput').value=val;
-    }
+<div id="option">
+    <input name="updateButton"
+           type="button"
+           value="Return"
+           onclick="comeback()" />
+</div>
+<div class="chart" id="chart1" style="display: inline-block; background-color: White;"><svg></svg></div>
+<div class="chart" id="chart2" style="display: inline-block; background-color: White;"><svg></svg></div>
+<div class="chart" id="pie" style=" margin: 10px; background-color: White;"></div>
 
-    d3.csv('data/arrivals-departures.csv', function(error, data) {
-        if (error) {
-            console.error('Error getting or parsing the data.');
-            throw error;
-        }
+<script>
+    var simulation,
+        leerPais,
+        columnForColors = "year",
+        columnForTitle = "country";
+
+    function updateTextInput(val) { //Para mostrar el año en el slider
+        document.getElementById('textInput').value=val;}
+
+    d3.csv('arrivals-departures.csv', function(error, data) {
+        if (error) {console.error('Error getting or parsing the data.');
+            throw error;}
         d3.select("#rangeInput").on("change", function() {
             simulation.alpha(1).restart();
             bubbleChart().width(650).height(700);
-             bubbleChart2().width(650).height(700);
+            bubbleChart2().width(650).height(700);
             d3.select('#chart1').data(data).call(chart);
-             d3.select('#chart2').data(data).call(chart2);
-
+            d3.select('#chart2').data(data).call(chart2);
         });
-
         var chart = bubbleChart().width(650).height(700);
         var chart2 = bubbleChart2().width(650).height(700);
         d3.select('#chart1').data(data).call(chart);
-         d3.select('#chart2').data(data).call(chart2);
+        d3.select('#chart2').data(data).call(chart2);
     });
 
     function bubbleChart() {
-        var width = 960,
-            height = 960,
-            columnForColors = "year",
-            columnForRadius1 = "arrivals",
-            columnForTitle = "country",
+        var columnForRadius1 = "arrivals",
             border=1,
             bordercolor='black';
 
@@ -81,16 +85,11 @@
                 .force("charge", d3.forceManyBody().strength([-50]))
                 .force("x", d3.forceX())
                 .force("y", d3.forceY())
-                // .alpha(1)
                 .on("tick", ticked);
 
             function ticked(e) {   //Define el tamaño de cada circulo
-                svg.selectAll("circle").attr("cx", function (d) {
-                    return 2 * d.x;
-                })
-                    .attr("cy", function (d) {
-                        return 2 * d.y;
-                    });
+                svg.selectAll("circle").attr("cx", function (d) {return 2 * d.x;})
+                    .attr("cy", function (d) {return 2 * d.y;});
             }
 
             var colorCircles1 = d3.scaleLinear()
@@ -112,80 +111,60 @@
                 .style("fill", "none")
                 .style("stroke-width", border);
 
-            var node = svg.selectAll("circle")
+            svg.selectAll("circle")
                 .data(data.filter(function(d){return d.year==+document.getElementById('textInput').value;}))
                 .enter()
                 .append("circle")
-                .attr('r', function (d) {
-                    return scaleRadius(d[columnForRadius1])
-                })
-                .style("fill", function (d) {
-                    return colorCircles1(d[columnForRadius1])
-                })
+                .attr('r', function (d) {return scaleRadius(d[columnForRadius1])})
+                .style("fill", function (d) {return colorCircles1(d[columnForRadius1])})
                 .attr('transform', 'translate(' + [width / 2, height / 2] + ')')
                 .on("mouseover", function (d) {
                     tooltip.html(d[columnForColors] + "<br>" + d[columnForTitle] + "<br>" + d[columnForRadius1] + " people");
                     return tooltip.style("visibility", "visible");
                 })
-                .on("mousemove", function () {
-                    return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
-                })
-                .on("mouseout", function () {
-                    return tooltip.style("visibility", "hidden");
+                .on("mousemove", function () {return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");})
+                .on("mouseout", function () {return tooltip.style("visibility", "hidden");})
+                .on ("click", function(d){
+                    leerPais = d[columnForTitle];
+                    d3.select("#chart1").remove();
+                    d3.select("#chart2").remove();
+                    piechart();
                 });
 
             svg.selectAll("circle")
                 .data(data.filter(function(d){return d.year==+document.getElementById('textInput').value;}))
-                .attr('r', function (d) {
-                    return scaleRadius(d[columnForRadius1])
-                })
-                .style("fill", function (d) {
-                    return colorCircles1(d[columnForRadius1])
-                })
-
+                .attr('r', function (d) {return scaleRadius(d[columnForRadius1])})
+                .style("fill", function (d) {return colorCircles1(d[columnForRadius1])})
         }
 
         chart.width = function (value) {
-            if (!arguments.length) {
-                return width;
-            }
+            if (!arguments.length) {return width;}
             width = value;
             return chart;
         };
 
         chart.height = function (value) {
-            if (!arguments.length) {
-                return height;
-            }
+            if (!arguments.length) {return height;}
             height = value;
             return chart;
         };
 
         chart.columnForColors = function (value) {
-            if (!arguments.columnForColors) {
-                return columnForColors;
-            }
+            if (!arguments.columnForColors) {return columnForColors;}
             columnForColors = value;
             return chart;
         };
 
         chart.columnForRadius1 = function (value) {
-            if (!arguments.columnForRadius1) {
-                return columnForRadius1;
-            }
+            if (!arguments.columnForRadius1) {return columnForRadius1;}
             columnForRadius1 = value;
             return chart;
         };
-
         return chart;
     }
 
     function bubbleChart2() {
-        var width = 960,
-            height = 960,
-            columnForColors = "year",
-            columnForRadius2 = "departures",
-            columnForTitle = "country",
+        var columnForRadius2 = "departures",
             border=1,
             bordercolor='black';
 
@@ -218,10 +197,10 @@
                 .style("width", "140px")
                 .text("");
 
-            var  simulation2 = d3.forceSimulation(data.filter(function(d){return d.year==+document.getElementById('textInput').value;}))
-                .force("charge", d3.forceManyBody().strength([-50]))
-                .force("x", d3.forceX())
-                .force("y", d3.forceY())
+            simulation = d3.forceSimulation(data.filter(function(d){return d.year==+document.getElementById('textInput').value;}))
+            // .force("charge", d3.forceManyBody().strength([-50]))
+            // .force("x", d3.forceX())
+            // .force("y", d3.forceY())
                 .on("tick", ticked2);
 
             function ticked2(e) {   //Define el tamaño de cada circulo
@@ -252,66 +231,52 @@
                 .style("fill", "none")
                 .style("stroke-width", border);
 
-            var node2 = svg.selectAll("circle")
+            svg.selectAll("circle")
                 .data(data.filter(function(d){return d.year==+document.getElementById('textInput').value;}))
                 .enter()
                 .append("circle")
-                .attr('r', function(d) {
-                    return scaleRadius(d[columnForRadius2])
-                })
-                .style("fill", function(d) {
-                    return colorCircles2(d[columnForRadius2])
-                })
+                .attr('r', function(d) {return scaleRadius(d[columnForRadius2])})
+                .style("fill", function(d) {return colorCircles2(d[columnForRadius2])})
                 .attr('transform', 'translate(' + [width / 2, height / 2] + ')')
                 .on("mouseover", function(d) {
                     tooltip.html(d[columnForColors] + "<br>" + d[columnForTitle] + "<br>" + d[columnForRadius2] + " people");
                     return tooltip.style("visibility", "visible");
                 })
-                .on("mousemove", function() {
-                    return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
-                })
-                .on("mouseout", function() {
-                    return tooltip.style("visibility", "hidden");
+                .on("mousemove", function() {return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");})
+                .on("mouseout", function() {return tooltip.style("visibility", "hidden");})
+                .on ("click", function(d){
+                    leerPais = d[columnForTitle];
+                    d3.select("#chart1").remove();
+                    d3.select("#chart2").remove();
+                    piechart();
                 });
 
             svg.selectAll("circle")
                 .data(data.filter(function(d){return d.year==+document.getElementById('textInput').value;}))
-                .attr('r', function (d) {
-                    return scaleRadius(d[columnForRadius2])
-                })
-                .style("fill", function (d) {
-                    return colorCircles2(d[columnForRadius2])
-                })
+                .attr('r', function (d) {return scaleRadius(d[columnForRadius2])})
+                .style("fill", function (d) {return colorCircles2(d[columnForRadius2])})
         }
 
         chart2.width = function(value) {
-            if (!arguments.length) {
-                return width;
-            }
+            if (!arguments.length) {return width;}
             width = value;
             return chart2;
         };
 
         chart2.height = function(value) {
-            if (!arguments.length) {
-                return height;
-            }
+            if (!arguments.length) {return height;}
             height = value;
             return chart2;
         };
 
         chart2.columnForColors = function(value) {
-            if (!arguments.columnForColors) {
-                return columnForColors;
-            }
+            if (!arguments.columnForColors) {return columnForColors;}
             columnForColors = value;
             return chart2;
         };
 
         chart2.columnForRadius2 = function(value) {
-            if (!arguments.columnForRadius2) {
-                return columnForRadius2;
-            }
+            if (!arguments.columnForRadius2) {return columnForRadius2;}
             columnForRadius2 = value;
             return chart2;
         };
@@ -320,5 +285,130 @@
 
 
 
+    function piechart(){
+         var width2=960,
+            height2 = 550;
+
+        d3.select('#pie').append("svg")
+            .attr('width', width2)
+            .attr('height', height2);
+
+        var svg = d3.select("svg"),
+            radius = ((Math.min(width2, height2) / 2)-30),
+            g = svg.append("g").attr("transform", "translate(" + ((width2 / 2)+200) + "," + ((height2/2)+15) + ")");
+
+        svg.append("text") //Titulo del grafico
+            .attr("x", ((width2 / 2)+200))
+            .attr("y",  30)
+            .attr("text-anchor", "middle")
+            .style("font-size", "20px")
+            .style("text-decoration", "underline")
+            .style("font-weight", "bold")
+            .text("Arrivals to " + leerPais + " in 2014");
+
+        svg.append("text") //Titulo del grafico
+            .attr("x", ((width2 / 2)+200))
+            .attr("y",  535)
+            .attr("text-anchor", "middle")
+            .style("font-size", "20px")
+            .style("text-decoration", "underline")
+            .style("font-weight", "bold")
+            .text("Departures from " + leerPais + " in 2014");
+
+        var color = d3.scaleOrdinal(["#DC143C", "#8B0000", "#E9967A", "#FF1493", "#B22222", "#CD5C5C", "#FFE4E1","#FFC0CB", "#FF0000"]);
+        var color2 = d3.scaleOrdinal(["#7FFF00", "#006400", "#556B2F", "#8FBC8F", "#228B22", "#008000", "#ADFF2F","#90EE90", "#00FF00", "#32CD32", "#3CB371", "#808000", "#6B8E23", "#98FB98"]);
+
+        var pie = d3.pie()
+            .sort(null)
+            .value(function(d) { return d[leerPais]; })
+            .startAngle(-90 * (Math.PI/180))
+            .endAngle(90 * (Math.PI/180));
+
+        var pie2 = d3.pie()
+            .sort(null)
+            .value(function(d) { return d[leerPais]; })
+            .startAngle(90 * (Math.PI/180))
+            .endAngle(270 * (Math.PI/180));
+
+        var arcOver = d3.arc()
+            .outerRadius(radius +10)
+            .innerRadius(0);
+
+        var path = d3.arc()
+            .outerRadius(radius - 10)
+            .innerRadius(0);
+        var path2 = d3.arc()
+            .outerRadius(radius - 30)
+            .innerRadius(0);
+
+        var tooltip = d3.select("body")
+            .append("div")
+            .style("position", "absolute")
+            .style("visibility", "hidden")
+            .style("color", "DarkBlue")
+            .style("padding", "8px")
+            .style("background-color", "CornflowerBlue")
+            .style("border-radius", "15px")
+            .style("text-align", "center")
+            .style("font-family", "monospace")
+            .style("width", "140px")
+            .text("");
+
+        d3.csv("intOrig.csv", function(d) {
+            return d;
+        }, function(error, data) {
+            if (error) throw error;
+            var arc = g.selectAll(".arc")
+                .data(pie(data.filter(function(d){return d[leerPais];})))
+                .enter().append("g")
+                .attr("class", "arc");
+            arc.append("path")
+                .attr("d", path)
+                .attr("fill", function(d) { return color(d.data.CountryName); })
+                .on("mouseover", function(d){
+                    var total = d3.sum(data, function(d) {return parseFloat(d[leerPais]);});
+                    var percent = Math.round(1000 * parseFloat(d.data[leerPais]) / total) / 10;
+                    tooltip.html(d.data.CountryName + "<br>" + d.data[leerPais] + " people" + "<br>" + percent + "%");
+                    d3.select(this).attr("d", arcOver);
+                    return tooltip.style("visibility", "visible");
+                })
+                .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+                .on("mouseout", function(){
+                    d3.select(this).attr("d", path);
+                    percent="";
+                    total="";
+                    return tooltip.style("visibility", "hidden");});
+        });
+
+        d3.csv("intDest.csv", function(d) {
+            return d;
+        }, function(error, data) {
+            if (error) throw error;
+            var arc2 = g.selectAll(".arc2")
+                .data(pie2(data.filter(function(d){return d[leerPais];})))
+                .enter().append("g")
+                .attr("class", "arc2");
+            arc2.append("path")
+                .attr("d", path2)
+                .attr("fill", function(d) { return color2(d.data.CountryName); })
+                .on("mouseover", function(d){
+                    var total = d3.sum(data, function(d) {return parseFloat(d[leerPais]);});
+                    var percent = Math.round(1000 * parseFloat(d.data[leerPais]) / total) / 10;
+                    tooltip.html(d.data.CountryName + "<br>" + d.data[leerPais] + " people" + "<br>" + percent + "%");
+                    d3.select(this).attr("d", arcOver);
+                    return tooltip.style("visibility", "visible");})
+                .on("mousemove", function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
+                .on("mouseout", function(){
+                    d3.select(this).attr("d", path2);
+                    percent="";
+                    total="";
+                    return tooltip.style("visibility", "hidden");});
+        });
+    }
+
+    function comeback(){
+        location.reload();
+    }
 </script>
+
 </body>
