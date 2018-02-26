@@ -30,7 +30,7 @@
     function updateTextInput(val) { //Para mostrar el año en el slider
         document.getElementById('textInput').value=val;}
 
-    d3.csv('arrivals-departures.csv', function(error, data) {
+    d3.csv('data/arrivals-departures.csv', function(error, data) {
         if (error) {console.error('Error getting or parsing the data.');
             throw error;}
         d3.select("#rangeInput").on("change", function() {
@@ -354,7 +354,7 @@
             .style("width", "140px")
             .text("");
 
-        d3.csv("intOrig.csv", function(d) {
+        d3.csv("data/intOrig.csv", function(d) {
             return d;
         }, function(error, data) {
             if (error) throw error;
@@ -380,7 +380,7 @@
                     return tooltip.style("visibility", "hidden");});
         });
 
-        d3.csv("intDest.csv", function(d) {
+        d3.csv("data/intDest.csv", function(d) {
             return d;
         }, function(error, data) {
             if (error) throw error;
