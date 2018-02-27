@@ -17,6 +17,16 @@
            type="button"
            value="Return"
            onclick="comeback()" />
+	<input name="changeButton"
+		   id="buttonChange"
+		   type="button"
+		   value="Change to Departures"
+		   onclick="changeView()" />
+	<input name="graphicsButton"
+		   id="buttonGraph"
+		   type="button"
+		   value="Change to Evolution by years"
+		   onclick="changeGraph()" />
 </div>
 <div class="chart" id="chart1" style="display: inline-block; background-color: White;"><svg></svg></div>
 <div class="chart" id="chart2" style="display: inline-block; background-color: White;"><svg></svg></div>
@@ -24,6 +34,7 @@
 
 <script>
 	document.getElementById("buttonReturn").style.visibility = "hidden";
+	document.getElementById("buttonChange").style.visibility = "hidden";
 
     var simulation,
         leerPais,
@@ -32,22 +43,28 @@
 
     function updateTextInput(val) { //Para mostrar el año en el slider
         document.getElementById('textInput').value=val;}
+		
 
-    d3.csv('data/arrivals-departures.csv', function(error, data) {
-        if (error) {console.error('Error getting or parsing the data.');
-            throw error;}
-        d3.select("#rangeInput").on("change", function() {
-            simulation.alpha(1).restart();
-            bubbleChart().width(650).height(700);
-            bubbleChart2().width(650).height(700);
-            d3.select('#chart1').data(data).call(chart);
-            d3.select('#chart2').data(data).call(chart2);
-        });
-        var chart = bubbleChart().width(650).height(700);
-        var chart2 = bubbleChart2().width(650).height(700);
-        d3.select('#chart1').data(data).call(chart);
-        d3.select('#chart2').data(data).call(chart2);
-    });
+	function GraphByYear() {
+		///////
+		// Crear aqui los 3 charts: chart1, chart2 y pie (en vez de en la parte HTML)
+		///////
+		d3.csv('data/arrivals-departures.csv', function(error, data) {
+			if (error) {console.error('Error getting or parsing the data.');
+				throw error;}
+			d3.select("#rangeInput").on("change", function() {
+				simulation.alpha(1).restart();
+				bubbleChart().width(650).height(700);
+				bubbleChart2().width(650).height(700);
+				d3.select('#chart1').data(data).call(chart);
+				d3.select('#chart2').data(data).call(chart2);
+			});
+			var chart = bubbleChart().width(650).height(700);
+			var chart2 = bubbleChart2().width(650).height(700);
+			d3.select('#chart1').data(data).call(chart);
+			d3.select('#chart2').data(data).call(chart2);
+		});
+	}
 
     function bubbleChart() {
         var columnForRadius1 = "arrivals",
@@ -420,6 +437,601 @@
     function comeback(){
         location.reload();
     }
+	
+	GraphByYear();
+	
+////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+	
+	  var margin_j = {top_j: 20, right_j: 55, bottom_j: 30, left_j: 40},
+	  width_j  = 1350 - margin_j.left_j - margin_j.right_j,
+	  height_j = 580  - margin_j.top_j  - margin_j.bottom_j;
+		  
+      var x_j = d3.scaleBand()
+		  .rangeRound([0, width_j - 300])
+		  .padding(0.1);
+		  
+      var y_j = d3.scaleLinear()
+		  .range([height_j, 0]);
+		  
+      var xAxis_j = d3.axisBottom(x_j);
+      var yAxis_j = d3.axisLeft(y_j);
+	  
+      var line_j = d3.line()
+          .x(function (d) { return x_j(d.label) + x_j.bandwidth() / 2; })
+          .y(function (d) { return y_j(d.value); });
+		  
+      var color_j = d3.scaleOrdinal(d3.schemeCategory20);
+		  
+	  var tooltip_j = d3.select("body")
+		.append("div")
+		.style("position", "absolute")
+		.style("opacity", 0)
+		.style("color", "black")
+		.style("padding", "8px")
+		.style("background-color", "lightsteelblue")
+		.style("border-radius", "15px")
+		.style("text-align", "center")
+		.style("font-family", "sans-serif")
+		.style("width", "140px")
+		.attr("x", 140)
+		.text("");
+		
+	  var button1 = document.getElementById('buttonReturn')
+	  button1.style.position = "absolute";
+	  button1.style.left = "70px";
+	  button1.style.top = "20px";
+		
+	  var button2 = document.getElementById('buttonChange')
+	  button2.style.position = "absolute";
+	  button2.style.left = (width_j-70) + 'px';
+	  button2.style.top = "150px";
+	  
+	  var button3 = document.getElementById('buttonGraph')
+	  button3.style.position = "absolute";
+	  button3.style.left = (width_j-150) + 'px';
+	  button3.style.top = "20px";
+		
+	  var showArriv = "1";
+	  var showEvolution = "0";
+
+
+function GraphTimeArriv() {
+
+		d3.select("#svg_j_2").remove();
+
+		svg_j_1 = d3.select("body").append("svg")
+          .attr("width",  width_j  + margin_j.left_j + margin_j.right_j)
+          .attr("height", height_j + margin_j.top_j  + margin_j.bottom_j)
+		  .attr("id", "svg_j_1")
+        .append("g")
+          .attr("transform", "translate(" + margin_j.left_j + "," + margin_j.top_j + ")");
+		  
+      d3.csv("data/arrivals.csv", function (error, data) {
+	  
+        var labelVar_j_1 = 'year';
+		
+        var varNames_j_1 = d3.keys(data[0])
+            .filter(function (key) { return key !== labelVar_j_1;});
+			
+        color_j.domain(varNames_j_1);
+		
+        var seriesData_j_1 = varNames_j_1.map(function (name) {
+          return {
+            name: name,
+            values: data.map(function (d) {
+              return {name: name, label: d[labelVar_j_1], value: (+d[name])/1000};
+            })
+          };
+        });
+		
+        x_j.domain(data.map(function (d) { return d.year; }));
+		
+        y_j.domain([0,0]);
+		
+        svg_j_1.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height_j + ")")
+            .call(xAxis_j);
+        svg_j_1.append("g")
+            .attr("class", "y axis")
+            .call(yAxis_j)
+		.append("text")
+		  .attr("transform", "rotate(-90)")
+		  .attr("y", 6)
+		  .attr("dy", "0.71em")
+		  .attr("fill", "#000")
+		  .text("Number of people (in thousands)");
+		  
+		var legend_j_1 = svg_j_1.selectAll(".legend")
+		.data(color_j.domain())
+		.enter().append("g")
+		.attr("class", "legend")
+		.attr("transform", function(d, i) { return "translate(0," + i * 13.5 + ")"; });
+			
+        var series_j_1 = svg_j_1.selectAll(".series")
+            .data(seriesData_j_1)
+          .enter().append("g")
+            .attr("class", "series");
+			
+        series_j_1.append("path")
+          .attr("class", "line")
+          .attr("d", function (d) { return line_j(d.values); })
+          .style("stroke", function (d) { return color_j(d.name); })
+          .style("stroke-width", "4px")
+          .style("fill", "none")
+		  .style("opacity", 0)
+          .on("mouseover", function(d) {
+			if(d3.select(this).style('opacity') == 1) {
+              tooltip_j.transition()
+                .duration(100)
+                .style("opacity", 0.9);
+			  tooltip_j.html(d.name/* + " ("  + data.year + ")<br/>"  + data.value + " people"*/)
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+			}
+          });
+
+		var	maximum_j_1 = 0;
+		  
+		legend_j_1.append("circle")
+			.style("fill", function(d) { return color_j(d); })
+			.attr("r", 5)
+			.attr("transform", function(d, i) { 
+			  return "translate(" + (width_j -260) + "," + -10 + ")"; 
+			})
+			.on("mouseover", function(d) {
+				d3.select(this).attr("r", 10);
+			})
+			.on("mouseout", function(d) {
+				d3.select(this).attr("r", 5);
+			})
+			.on("click", function(d) {
+			
+				d3.selectAll(".line")
+				  .filter(function(e) {
+					return e.name == d;
+				  })
+				  .style("opacity", function() {
+					if(d3.select(this).style('opacity') == 1) {
+					  d3.selectAll('text[d="'+d+'"]')
+						.style("font-weight", "")
+						.style("fill", "grey");						
+					  return 0;
+					}
+					else {
+					  d3.selectAll('text[d="'+d+'"]')
+						.style("font-weight", "bold")
+						.style("fill", "black");
+					  return 1;
+					}
+				  });
+				
+				var maximum_j_1 = d3.max(seriesData_j_1, function(e) {
+					return d3.max(e.values, function (c) {
+						if ((d3.selectAll(".line")
+						  .filter(function(f) {
+							return c.name == f.name;
+						})
+						  .style('opacity')) == 1) { return c.value; }
+						else { return 0; }
+					});
+				});
+					
+				y_j.domain([0, maximum_j_1]);
+							
+				svg_j_1.select(".y.axis")
+				  .transition()
+				  .duration(1000)
+				  .call(yAxis_j);
+							
+				svg_j_1.selectAll(".line")
+				  .transition()
+				  .duration(1000)
+				  .attr("d", function(d) { return line_j(d.values); });
+				  
+				tooltip_j.transition().style("opacity", 0);
+			})
+			
+		legend_j_1.append("text")
+			.attr("x", width_j-250)
+			.attr("y", -10)
+			.attr("dy", ".25em")
+			.attr("d", function(d) { return d; })
+			.style("text-anchor", "start")
+			.style("font-weight", "")
+			.style("fill", "grey")
+			.text(function(d) { return d; })
+			
+		svg_j_1.append("circle")
+		  .style("fill", "black")
+		  .attr("cx", width_j-110)
+		  .attr("cy", -10)
+		  .attr("r", 5)
+		  .on("mouseover", function(d) {
+		  	d3.select(this).attr("r", 10);
+		  })
+		  .on("mouseout", function(d) {
+		  	d3.select(this).attr("r", 5);
+		  })
+		  .on("click", function(d) {
+		  
+			d3.selectAll(".line").style("opacity", 1);
+			
+			maximum_j = d3.max(seriesData_j_1, function (c) { 
+			  return d3.max(c.values, function (d) { return d.value; });
+			})
+			
+			y_j.domain([
+			d3.min(seriesData_j_1, function (c) { 
+			  return d3.min(c.values, function (d) { return d.value; });
+			}), maximum_j ]);
+			
+			svg_j_1.select(".y.axis")
+			.transition()
+			.duration(1000)
+			.call(yAxis_j);
+						
+			svg_j_1.selectAll(".line")
+			.transition()
+			.duration(1000)
+			.attr("d", function (d) { return line_j(d.values); });
+			
+			tooltip_j.transition().style("opacity", 0);
+			
+			legend_j_1.selectAll("text")
+			  .style("font-weight", "bold")
+			  .style("fill", "black");
+			  
+		  });
+		  
+		svg_j_1.append("text")
+		  .attr("x", width_j-100)
+		  .attr("y", -10)
+		  .attr("dy", ".25em")
+		  .style("text-anchor", "start")
+		  .text("Show all countries");
+		  
+		svg_j_1.append("circle")
+		  .style("fill", "white")
+		  .attr("cx", width_j-110)
+		  .attr("cy", 10)
+		  .attr("r", 5)
+          .style("stroke", "black")
+          .style("stroke-width", "1px")
+		  .on("mouseover", function(d) {
+		  	d3.select(this).attr("r", 10);
+		  })
+		  .on("mouseout", function(d) {
+		  	d3.select(this).attr("r", 5);
+		  })
+		  .on("click", function(d) {
+		  
+			d3.selectAll(".line").style("opacity", 0);
+			
+			maximum_j = 0;
+					
+			y_j.domain([0, 0]);
+					
+			svg_j_1.select(".y.axis")
+			  .transition()
+			  .duration(1000)
+			  .call(yAxis_j);
+					
+			svg_j_1.selectAll(".line")
+			  .transition()
+			  .duration(1000)
+			  .attr("d", function (d) { return line_j(d.values); });
+			
+			tooltip_j.transition().style("opacity", 0);
+			
+			legend_j_1.selectAll("text")
+			  .style("font-weight", "")
+			  .style("fill", "grey");
+			  
+		  });
+			
+		svg_j_1.append("text")
+		  .attr("x", width_j-100)
+		  .attr("y", 10)
+		  .attr("dy", ".25em")
+		  .style("text-anchor", "start")
+		  .text("Hide all countries");
+		
+	  });
+	  
+}
+	  
+/////////////////////////////////////////////////////////////////////////////////////////////////////	  
+
+function GraphTimeDepar() {
+
+		d3.select("#svg_j_1").remove();
+
+		var svg_j_2 = d3.select("body").append("svg")
+          .attr("width",  width_j  + margin_j.left_j + margin_j.right_j)
+          .attr("height", height_j + margin_j.top_j  + margin_j.bottom_j)
+		  .attr("id", "svg_j_2")
+        .append("g")
+          .attr("transform", "translate(" + margin_j.left_j + "," + margin_j.top_j + ")");
+
+      d3.csv("data/departures.csv", function (error, data) {
+	  
+        var labelVar_j_2 = 'year';
+		
+        var varNames_j_2 = d3.keys(data[0])
+            .filter(function (key) { return key !== labelVar_j_2;});
+			
+        color_j.domain(varNames_j_2);
+		
+        var seriesData_j_2 = varNames_j_2.map(function (name) {
+          return {
+            name: name,
+            values: data.map(function (d) {
+              return {name: name, label: d[labelVar_j_2], value: (+d[name])/1000};
+            })
+          };
+        });
+		
+        x_j.domain(data.map(function (d) { return d.year; }));
+		
+        y_j.domain([0,0]);
+		
+        svg_j_2.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height_j + ")")
+            .call(xAxis_j);
+        svg_j_2.append("g")
+            .attr("class", "y axis")
+            .call(yAxis_j)
+		.append("text")
+		  .attr("transform", "rotate(-90)")
+		  .attr("y", 6)
+		  .attr("dy", "0.71em")
+		  .attr("fill", "#000")
+		  .text("Number of people (in thousands)");
+		  
+		var legend_j_2 = svg_j_2.selectAll(".legend")
+		.data(color_j.domain())
+		.enter().append("g")
+		.attr("class", "legend")
+		.attr("transform", function(d, i) { return "translate(0," + i * 13.5 + ")"; });
+			
+        var series_j_2 = svg_j_2.selectAll(".series")
+            .data(seriesData_j_2)
+          .enter().append("g")
+            .attr("class", "series");
+			
+        series_j_2.append("path")
+          .attr("class", "line")
+          .attr("d", function (d) { return line_j(d.values); })
+          .style("stroke", function (d) { return color_j(d.name); })
+          .style("stroke-width", "4px")
+          .style("fill", "none")
+		  .style("opacity", 0)
+          .on("mouseover", function(d) {
+			if(d3.select(this).style('opacity') == 1) {
+              tooltip_j.transition()
+                .duration(100)
+                .style("opacity", 0.9);
+			  tooltip_j.html(d.name/* + " ("  + data.year + ")<br/>"  + data.value + " people"*/)
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+			}
+          });
+
+		var	maximum_j_2 = 0;
+		  
+		legend_j_2.append("circle")
+			.style("fill", function(d) { return color_j(d); })
+			.attr("r", 5)
+			.attr("transform", function(d, i) { 
+			  return "translate(" + (width_j -260) + "," + -10 + ")"; 
+			})
+			.on("mouseover", function(d) {
+				d3.select(this).attr("r", 10);
+			})
+			.on("mouseout", function(d) {
+				d3.select(this).attr("r", 5);
+			})
+			.on("click", function(d) {
+			
+				d3.selectAll(".line")
+				  .filter(function(e) {
+					return e.name == d;
+				  })
+				  .style("opacity", function() {
+					if(d3.select(this).style('opacity') == 1) {
+					  d3.selectAll('text[d="'+d+'"]')
+						.style("font-weight", "")
+						.style("fill", "grey");						
+					  return 0;
+					}
+					else {
+					  d3.selectAll('text[d="'+d+'"]')
+						.style("font-weight", "bold")
+						.style("fill", "black");
+					  return 1;
+					}
+				  });
+				
+				var maximum_j_2 = d3.max(seriesData_j_2, function(e) {
+					return d3.max(e.values, function (c) {
+						if ((d3.selectAll(".line")
+						  .filter(function(f) {
+							return c.name == f.name;
+						})
+						  .style('opacity')) == 1) { return c.value; }
+						else { return 0; }
+					});
+				});
+					
+				y_j.domain([0, maximum_j_2]);
+							
+				svg_j_2.select(".y.axis")
+				  .transition()
+				  .duration(1000)
+				  .call(yAxis_j);
+							
+				svg_j_2.selectAll(".line")
+				  .transition()
+				  .duration(1000)
+				  .attr("d", function(d) { return line_j(d.values); });
+				  
+				tooltip_j.transition().style("opacity", 0);
+			})
+			
+		legend_j_2.append("text")
+			.attr("x", width_j-250)
+			.attr("y", -10)
+			.attr("dy", ".25em")
+			.attr("d", function(d) { return d; })
+			.style("text-anchor", "start")
+			.style("font-weight", "")
+			.style("fill", "grey")
+			.text(function(d) { return d; })
+			
+		svg_j_2.append("circle")
+		  .style("fill", "black")
+		  .attr("cx", width_j-110)
+		  .attr("cy", -10)
+		  .attr("r", 5)
+		  .on("mouseover", function(d) {
+		  	d3.select(this).attr("r", 10);
+		  })
+		  .on("mouseout", function(d) {
+		  	d3.select(this).attr("r", 5);
+		  })
+		  .on("click", function(d) {
+		  
+			d3.selectAll(".line").style("opacity", 1);
+			
+			maximum_j = d3.max(seriesData_j_2, function (c) { 
+			  return d3.max(c.values, function (d) { return d.value; });
+			})
+			
+			y_j.domain([
+			d3.min(seriesData_j_2, function (c) { 
+			  return d3.min(c.values, function (d) { return d.value; });
+			}), maximum_j ]);
+			
+			svg_j_2.select(".y.axis")
+			.transition()
+			.duration(1000)
+			.call(yAxis_j);
+						
+			svg_j_2.selectAll(".line")
+			.transition()
+			.duration(1000)
+			.attr("d", function (d) { return line_j(d.values); });
+			
+			tooltip_j.transition().style("opacity", 0);
+			
+			legend_j_2.selectAll("text")
+			  .style("font-weight", "bold")
+			  .style("fill", "black");
+			  
+		  });
+		  
+		svg_j_2.append("text")
+		  .attr("x", width_j-100)
+		  .attr("y", -10)
+		  .attr("dy", ".25em")
+		  .style("text-anchor", "start")
+		  .text("Show all countries");
+		  
+		svg_j_2.append("circle")
+		  .style("fill", "white")
+		  .attr("cx", width_j-110)
+		  .attr("cy", 10)
+		  .attr("r", 5)
+          .style("stroke", "black")
+          .style("stroke-width", "1px")
+		  .on("mouseover", function(d) {
+		  	d3.select(this).attr("r", 10);
+		  })
+		  .on("mouseout", function(d) {
+		  	d3.select(this).attr("r", 5);
+		  })
+		  .on("click", function(d) {
+		  
+			d3.selectAll(".line").style("opacity", 0);
+			
+			maximum_j = 0;
+					
+			y_j.domain([0, 0]);
+					
+			svg_j_2.select(".y.axis")
+			  .transition()
+			  .duration(1000)
+			  .call(yAxis_j);
+					
+			svg_j_2.selectAll(".line")
+			  .transition()
+			  .duration(1000)
+			  .attr("d", function (d) { return line_j(d.values); });
+			
+			tooltip_j.transition().style("opacity", 0);
+			
+			legend_j_2.selectAll("text")
+			  .style("font-weight", "")
+			  .style("fill", "grey");
+			  
+		  });
+			
+		svg_j_2.append("text")
+		  .attr("x", width_j-100)
+		  .attr("y", 10)
+		  .attr("dy", ".25em")
+		  .style("text-anchor", "start")
+		  .text("Hide all countries");
+		
+	  });
+	  
+}
+
+function changeView(){
+	if(showArriv == "1") {
+		d3.select("#buttonChange").attr("value", "Change to Arrivals");
+		tooltip_j.style("opacity", 0);
+		GraphTimeDepar();
+		showArriv = "0";
+	}
+	else {
+		d3.select("#buttonChange").attr("value", "Change to Departures");
+		tooltip_j.style("opacity", 0);
+		GraphTimeArriv();
+		showArriv = "1";
+	}
+}
+
+function changeGraph(){
+	if(showEvolution == "1") {
+		d3.select("#buttonGraph").attr("value", "Change to Tourism by Year");
+		tooltip_j.style("opacity", 0);
+		d3.select("#svg_j_1").remove();
+		d3.select("#svg_j_2").remove();
+		document.getElementById("buttonChange").style.visibility = "hidden";
+		d3.select("#year").style("visibility", "visible");
+		d3.select("#rangeInput").style("visibility", "visible");
+		d3.select("#textInput").style("visibility", "visible");
+		GraphByYear();
+        //location.reload();
+		showEvolution = "0";
+	}
+	else {
+		d3.select("#buttonGraph").attr("value", "Change to Tourism Evolution");
+		d3.select("#chart1").remove();
+		d3.select("#chart2").remove();
+		document.getElementById("buttonChange").style.visibility = "visible";
+		d3.select("#year").style("visibility", "hidden");
+		d3.select("#rangeInput").style("visibility", "hidden");
+		d3.select("#textInput").style("visibility", "hidden");
+		document.getElementById("buttonReturn").style.visibility = "hidden";
+		GraphTimeArriv();
+		showEvolution = "1";
+	}
+}
 </script>
 
 </body>
