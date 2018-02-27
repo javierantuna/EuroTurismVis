@@ -13,6 +13,7 @@
 <body>
 <div id="option">
     <input name="updateButton"
+		   id="buttonReturn"
            type="button"
            value="Return"
            onclick="comeback()" />
@@ -22,6 +23,8 @@
 <div class="chart" id="pie" style=" margin: 10px; background-color: White;"></div>
 
 <script>
+	document.getElementById("buttonReturn").style.visibility = "hidden";
+
     var simulation,
         leerPais,
         columnForColors = "year",
@@ -128,6 +131,10 @@
                     leerPais = d[columnForTitle];
                     d3.select("#chart1").remove();
                     d3.select("#chart2").remove();
+					d3.select("#year").style("visibility", "hidden");
+					d3.select("#rangeInput").style("visibility", "hidden");
+					d3.select("#textInput").style("visibility", "hidden");
+					document.getElementById("buttonReturn").style.visibility = "visible";
                     piechart();
                 });
 
@@ -248,6 +255,10 @@
                     leerPais = d[columnForTitle];
                     d3.select("#chart1").remove();
                     d3.select("#chart2").remove();
+					d3.select("#year").style("visibility", "hidden");
+					d3.select("#rangeInput").style("visibility", "hidden");
+					d3.select("#textInput").style("visibility", "hidden");
+					document.getElementById("buttonReturn").style.visibility = "visible";
                     piechart();
                 });
 
