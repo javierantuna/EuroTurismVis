@@ -25,7 +25,7 @@ De cette façon on montrera soit les entrées ou les sorties de chaque pays chaq
 <table border="0">
   <tr>
     <td>
-      <img src="img/" style="width: 100px;">
+      <img src="img/Captura3.PNG" style="width: 100px;">
     </td>
   </tr>
 </table>
