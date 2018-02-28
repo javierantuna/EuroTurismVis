@@ -9,7 +9,7 @@ De cette façon on montrera soit les entrées ou les sorties de chaque pays chaq
 <table border="0">
   <tr>
     <td>
-      <img src="img/Captura1.png" style="width: 100px;">
+      <img src="img/Captura1.PNG" style="width: 100px;">
     </td>
   </tr>
 </table>
