@@ -29,3 +29,19 @@ De cette façon on montrera soit les entrées ou les sorties de chaque pays chaq
     </td>
   </tr>
 </table>
+
+<table border="0">
+  <tr>
+    <td>
+      <img src="img/Captura4.PNG" style="width: 100px;">
+    </td>
+  </tr>
+</table>
+
+<table border="0">
+  <tr>
+    <td>
+      <img src="img/Captura5.PNG" style="width: 100px;">
+    </td>
+  </tr>
+</table>
