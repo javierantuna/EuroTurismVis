@@ -10,6 +10,7 @@ The first data shown are the entries and the exits of each country each year, th
 
 We have chosen the Bubble Chart to help the user to compare the difference in the number of people between the different countries. Moreover, with the colour scale we also help the user to understand either which country send more tourists aboad, or which country receives more visitors.
 
+
 <table border="0">
   <tr>
     <td>
@@ -18,7 +19,9 @@ We have chosen the Bubble Chart to help the user to compare the difference in th
   </tr>
 </table>
 
+
 In this first graphic we have also included a Tooltip to show the country name and the number of people represented by each circle, as is shown in the next picture.
+
 
 <table border="0">
   <tr>
@@ -28,7 +31,9 @@ In this first graphic we have also included a Tooltip to show the country name a
   </tr>
 </table>
 
+
 After that, once the user clicks in the chosen circle, we change the visualization to a second graphic, a Pie Chart, to compare the arrivals to and the departures from a country in the year 2014. Our initial idea was to offer this graphic for the years between 1995 and 2014. However, because of some problems that we have identified once we started working, we have had to correct all the data by hand. That is the reason why we decided to offer the graphic only for the year 2014, so, if we ever have the correct data we should only change the Excel worksheet and our visualization will offer all the years as expected.
+
 
 <table border="0">
   <tr>
@@ -38,9 +43,11 @@ After that, once the user clicks in the chosen circle, we change the visualizati
   </tr>
 </table>
 
+
 With this Pie Chart we try to help the user in the analyse of the information given. In this graphic he can easily know from which country come more tourists to the country chosen and where do his inhabitant go to on holidays with the help of a Tooltip. This Tooltip shows the country name, the number of people and the percentage that each country represents. That is the reason why we have chosen the Pie Chart, because it is a good Chart to represent proportions and it is easier to compare them.
 
 Another important point is the fact that we have also worked with the same colour scale as the one in the first graphic. This can also help the user to understand all the information given in a short period of time.
+
 
 <table border="0">
   <tr>
