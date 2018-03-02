@@ -1,6 +1,6 @@
 # EuroTurismVis
 
-The main objective of this project is to visualize the movements of the tourist between the different European countries in the different years offered (1995-2015).
+The main objective of this project is not only to show which countries are leading the numbers of incoming and outgoing tourists in the different years offered (1995-2015), but also visualize the movements of the tourist between the different European countries.
 
 To do that we will use different graphics and several interactions between the web page and the user.
 
