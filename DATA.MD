@@ -1,6 +1,6 @@
-Les données ont été obtenues du site <a href="https://data.worldbank.org/">World Bank</a>.
+Data was obtained from the web-site <a href="https://data.worldbank.org/">World Bank</a>.
 
-Les sources des données ci-dessous sont sous licence ouverte.
+The data sources below are under an open license.
 
 https://data.worldbank.org/indicator/ST.INT.ARVL
 
