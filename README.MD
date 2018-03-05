@@ -32,7 +32,7 @@ In this first graphic we have also included a Tooltip to show the country name a
 </table>
 
 
-After that, once the user clicks in the chosen circle, we change the visualization to a second graphic, a Pie Chart, to compare the arrivals to and the departures from a country in the year 2014. Our initial idea was to offer this graphic for the years between 1995 and 2014. However, because of some problems that we have identified once we started working, we have had to correct all the data by hand. That is the reason why we decided to offer the graphic only for the year 2014, so, if we ever have the correct data we should only change the Excel worksheet and our visualization will offer all the years as expected.
+After that, once the user clicks on the chosen circle, we change the visualization to a second graphic, a Pie Chart, to compare the arrivals to and the departures from a country in the year 2014. Our initial idea was to offer this graphic for the years between 1995 and 2015. However, because of some problems that we have identified once we started working, we have had to correct all the data by hand. That is the reason why we decided to offer the graphic only for the year 2014, so, if we ever have the correct data we should only change the Excel worksheet and our visualization will offer all the years as expected.
 
 
 <table border="0">
