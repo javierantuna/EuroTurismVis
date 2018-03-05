@@ -90,14 +90,6 @@ The Chart legend is located to the right of the space which contains the Multi-l
 
 To begin the curves visualization of the different countries, just interact with the colored circles next to each country. When we move the mouse over one of those circles, the circle increases in size so that the user easily knows the country on which the cursor will act.
 
-<table border="0">
-  <tr>
-    <td>
-      <img src="img/CircleIncreases.PNG" style="width: 100px;">
-    </td>
-  </tr>
-</table>
-
 By clicking on the circle that has increased in size, the curve of the corresponding country is shown in the Multi-line Chart. This curve is represented in the same color as the selected circle.
 
 We can also see how the scale of the y-axis has changed since it is a dynamic axis. This means that every time the Multi-line Chart is updated by entering or deleting one country curve, the scale of the axis will change according to the curves that are displayed after the graph is updated. By selecting another different country, by clicking on the circle assigned to it, the scale of the y-axis may change depending on the new data.
@@ -157,7 +149,7 @@ Below the "Show all countries" and "Hide all countries" buttons, we can find the
 <table border="0">
   <tr>
     <td>
-      <img src="img/ButtonToDepartures.PNG" style="width: 100px;">
+      <img src="img/ButtonToDepartures.PNG" style="width: 20px;">
     </td>
   </tr>
 </table>
@@ -184,20 +176,12 @@ The functioning of this visualization is the same as the arrivals chart. The onl
 
 If the user wishes to access the arrival chart again, he can do so by clicking on the "Change to Arrivals" button on the right side of the screen.
 
-<table border="0">
-  <tr>
-    <td>
-      <img src="img/ButtonToArrivals.PNG" style="width: 100px;">
-    </td>
-  </tr>
-</table>
-
 Finally, if the user wants to return to the Bubble Charts, he can do so by clicking on the "Change to Tourism by Year" button, which is located at the top right of the display.
 
 <table border="0">
   <tr>
     <td>
-      <img src="img/ButtonToBubbles.PNG" style="width: 100px;">
+      <img src="img/ButtonToBubbles.PNG" style="width: 20px;">
     </td>
   </tr>
 </table>
