@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 <head>
     <title>EuroTurismVis</title>
     <div>
-        <span id="year" style="font-family: 'sans-serif';color: blue;">YEAR</span>
+        <span id="year">YEAR</span>
         <span id="ArrDep1">Arrivals</span>
         <span id="ArrDep2">Departures</span>
-        <span id="Authors">This project was made by Javier Antuna Gonzalez and Maria Ramirez Mateo.</span>
+        <span id="Authors">This project was made by Javier Antuña González and María Ramírez Mateo.</span>
         <span id="linkGithub">Click here to access <a href="https://github.com/javierantuna/EuroTurismVis">the GitHub repository</a>.</span>
         <input type="range" id="rangeInput" name="rangeInput" min="1995" max="2015" value="1995" onchange="updateTextInput(this.value);">
         <input type="text" id="textInput" value="1995">
-        <span id="title" class="text-center" style="font-size: 35px; font-family: 'Papyrus'; font-weight: bold; color: blue; align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tourism In Europe</span>
+        <span id="title" class="text-center" style="font-size: 35px; font-family: 'elephant'; font-weight: bold; color: blue; align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tourism In Europe</span>
     </div>
     <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
@@ -20,19 +21,19 @@
            id="buttonReturn"
            type="button"
            value="Return"
-	    style="font-family: 'sans-serif'; font-weight: bold; font-size: 15px; background: lightblue;"
+	    style="font-family: 'book antiqua'; font-weight: bold; font-size: 15px; background: lightblue;"
            onclick="comeback()" />
     <input name="changeButton"
            id="buttonChange"
            type="button"
            value="Change to Departures"
-	    style="font-family: 'sans-serif'; font-weight: bold; font-size: 15px; background: lightblue;"
+	    style="font-family: 'book antiqua'; font-weight: bold; font-size: 15px; background: lightblue;"
            onclick="changeView()" />
     <input name="graphicsButton"
            id="buttonGraph"
            type="button"
            value="Change to Evolution by years"
-	    style="font-family: 'sans-serif'; font-weight: bold; font-size: 15px; background: lightblue;"
+	    style="font-family: 'book antiqua'; font-weight: bold; font-size: 15px; background: lightblue;"
            onclick="changeGraph()" />
 </div>
 
@@ -62,31 +63,23 @@
 	
 	d3.select('#ArrDep1')
 		.style("font-size", "24px")
-	.style("font-family", "sans-serif")
+	.style("font-family", "book antiqua")
         .style("text-decoration", "underline")
         .style("font-weight", "bold")
         .style("visibility", "hidden");
 	
 	d3.select('#ArrDep2')
 		.style("font-size", "24px")
-	.style("font-family", "sans-serif")
+	.style("font-family", "book antiqua")
         .style("text-decoration", "underline")
         .style("font-weight", "bold")
         .style("visibility", "hidden");
 	
 	d3.select('#Authors')
-	.style("font-family", "sans-serif")
-		//.style("font-size", "24px")
-        //.style("text-decoration", "underline")
-        //.style("font-weight", "bold")
-        //.style("visibility", "hidden");
+	.style("font-family", "book antiqua");
 	
 	d3.select('#linkGithub')
-	.style("font-family", "sans-serif")
-		//.style("font-size", "24px")
-        //.style("text-decoration", "underline")
-        //.style("font-weight", "bold")
-        //.style("visibility", "hidden");
+	.style("font-family", "book antiqua");
 		
 	d3.select("body").append("a")
     .attr("xlink:href", "http://en.wikipedia.org/wiki/")
@@ -153,7 +146,7 @@
                 .attr("y", 50)
                 .attr("text-anchor", "middle")
                 .style("font-size", "20px")
-		.style("font-family", "sans-serif")
+		.style("font-family", "book antiqua")
                 .style("text-decoration", "underline")
                 .style("font-weight", "bold")
                 .text("Arrivals");
@@ -166,7 +159,7 @@
                 .style("background-color", "CornflowerBlue")
                 .style("border-radius", "15px")
                 .style("text-align", "center")
-	    	.style("font-family", "sans-serif")
+	    	.style("font-family", "book antiqua")
                 .style("font-family", "monospace")
                 .style("width", "140px")
                 .text("");
@@ -258,7 +251,7 @@
                 .attr("y", 50)
                 .attr("text-anchor", "middle")
                 .style("font-size", "20px")
-		.style("font-family", "sans-serif")
+		.style("font-family", "book antiqua")
                 .style("text-decoration", "underline")
                 .style("font-weight", "bold")
                 .text("Departures");
@@ -268,7 +261,7 @@
                 .style("visibility", "hidden")
                 .style("color", "DarkBlue")
                 .style("padding", "8px")
-	    	.style("font-family", "sans-serif")
+	    	.style("font-family", "book antiqua")
                 .style("background-color", "CornflowerBlue")
                 .style("border-radius", "15px")
                 .style("text-align", "center")
@@ -372,7 +365,7 @@
             .attr("y",  30)
             .attr("text-anchor", "middle")
             .style("font-size", "20px")
-	    .style("font-family", "sans-serif")
+	    .style("font-family", "book antiqua")
             .style("text-decoration", "underline")
             .style("font-weight", "bold")
             .text("Arrivals to " + leerPais + " in 2014");
@@ -381,7 +374,7 @@
             .attr("y",  535)
             .attr("text-anchor", "middle")
             .style("font-size", "20px")
-	    .style("font-family", "sans-serif")
+	    .style("font-family", "book antiqua")
             .style("text-decoration", "underline")
             .style("font-weight", "bold")
             .text("Departures from " + leerPais + " in 2014");
@@ -416,7 +409,7 @@
             .style("border-radius", "15px")
             .style("text-align", "center")
             .style("font-family", "monospace")
-	.style("font-family", "sans-serif")
+	.style("font-family", "book antiqua")
             .style("width", "140px")
             .text("");
         d3.csv("data/intOrig.csv", function(d) {
@@ -501,7 +494,7 @@
         .style("background-color", "lightsteelblue")
         .style("border-radius", "15px")
         .style("text-align", "center")
-        .style("font-family", "sans-serif")
+        .style("font-family", "book antiqua")
         .style("width", "140px")
         .attr("x", 140)
         .text("");
@@ -641,7 +634,7 @@
                 .attr("dy", ".25em")
                 .attr("d", function(d) { return d; })
                 .style("text-anchor", "start")
-		.style("font-family", "sans-serif")
+		.style("font-family", "book antiqua")
                 .style("font-weight", "")
                 .style("fill", "grey")
                 .text(function(d) { return d; })
@@ -844,7 +837,7 @@
                 .attr("dy", ".25em")
                 .attr("d", function(d) { return d; })
                 .style("text-anchor", "start")
-		.style("font-family", "sans-serif")
+		.style("font-family", "book antiqua")
                 .style("font-weight", "")
                 .style("fill", "grey")
                 .text(function(d) { return d; })
@@ -886,7 +879,7 @@
                 .attr("y", -10)
                 .attr("dy", ".25em")
                 .style("text-anchor", "start")
-		.style("font-family", "sans-serif")
+		.style("font-family", "book antiqua")
                 .text("Show all countries");
             svg_j_2.append("circle")
                 .style("fill", "white")
@@ -923,7 +916,7 @@
                 .attr("y", 10)
                 .attr("dy", ".25em")
                 .style("text-anchor", "start")
-		.style("font-family", "sans-serif")
+		.style("font-family", "book antiqua")
                 .text("Hide all countries");
         });
     }
