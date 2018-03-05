@@ -63,13 +63,11 @@
         columnForTitle = "country";
     function updateTextInput(val) { //Para mostrar el año en el slider
         document.getElementById('textInput').value=val;}
-
     function GraphByYear() {
         var width=650,
-            height = 700,
+            height = 700
             border=1,
             bordercolor='black';
-
         var svg1 = d3.select("body").append("svg")
             .attr("width",  width  )
             .attr("height", height)
@@ -77,7 +75,6 @@
             .append("g")
             .attr("border",border)
             .style("display", "inline-block");
-
         var svg2 = d3.select("body").append("svg")
             .attr("width",  width)
             .attr("height", height)
@@ -85,12 +82,10 @@
             .append("g")
             .attr("border",border)
             .style("display", "inline-block");
-
 		d3.select('#year').style("visibility", "visible");
 		d3.select('#textInput').style("visibility", "visible");
 		d3.select('#rangeInput').style("visibility", "visible");
 		d3.select('#buttonReturn').style("visibility", "hidden");
-
         d3.csv('data/arrivals-departures.csv', function(error, data) {
             if (error) {console.error('Error getting or parsing the data.');
                 throw error;}
@@ -109,10 +104,8 @@
     }
     function bubbleChart() {
         var columnForRadius1 = "arrivals";
-
         function chart(selection) {
             var data = selection.enter().data();
-
             d3.select('#chart1').append("text") //Titulo del grafico
                 .attr("x", (width / 2))
                 .attr("y", 50)
@@ -121,7 +114,6 @@
                 .style("text-decoration", "underline")
                 .style("font-weight", "bold")
                 .text("Arrivals");
-
             var tooltip = d3.select("body")  //Texto al pasar sobre la burbuja
                 .append("div")
                 .style("position", "absolute")
@@ -134,8 +126,6 @@
                 .style("font-family", "monospace")
                 .style("width", "140px")
                 .text("");
-
-
             simulation = d3.forceSimulation(data.filter(function(d){ return d.year==+document.getElementById('textInput').value; }))
                 .force("charge", d3.forceManyBody().strength([-50]))
                 .force("x", d3.forceX())
@@ -217,7 +207,6 @@
         function chart2(selection) {
             var data = selection.enter().data();
             // var div = selection;
-
             d3.select('#chart2').append("text")  //Titulo del grafico
                 .attr("x", (width / 2))
                 .attr("y", 50)
@@ -226,7 +215,6 @@
                 .style("text-decoration", "underline")
                 .style("font-weight", "bold")
                 .text("Departures");
-
             var tooltip = d3.select("body")  //Texto al pasar sobre la burbuja
                 .append("div")
                 .style("position", "absolute")
@@ -239,13 +227,11 @@
                 .style("font-family", "monospace")
                 .style("width", "140px")
                 .text("");
-
             simulation = d3.forceSimulation(data.filter(function(d){return d.year==+document.getElementById('textInput').value;}))
             // .force("charge", d3.forceManyBody().strength([-50]))
             // .force("x", d3.forceX())
             // .force("y", d3.forceY())
                 .on("tick", ticked2);
-
             function ticked2(e) {   //Define el tamaño de cada circulo
                 d3.select('#chart2').selectAll("circle").attr("cx", function(d) {
                     return 2*d.x;
@@ -324,7 +310,6 @@
     function piechart(){
         var width2=960,
             height2 = 550;
-
         var svg3 = d3.select("body").append("svg")
             .attr("width",  width2)
             .attr("height", height2)
@@ -435,32 +420,23 @@
         d3.select("#pie").remove();
         GraphByYear();
     }
-
     GraphByYear();
-
     ////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////
-
     var margin_j = {top_j: 20, right_j: 55, bottom_j: 30, left_j: 40},
         width_j  = 1350 - margin_j.left_j - margin_j.right_j,
         height_j = 580  - margin_j.top_j  - margin_j.bottom_j;
-
     var x_j = d3.scaleBand()
         .rangeRound([0, width_j - 300])
         .padding(0.1);
-
     var y_j = d3.scaleLinear()
         .range([height_j, 0]);
-
     var xAxis_j = d3.axisBottom(x_j);
     var yAxis_j = d3.axisLeft(y_j);
-
     var line_j = d3.line()
         .x(function (d) { return x_j(d.label) + x_j.bandwidth() / 2; })
         .y(function (d) { return y_j(d.value); });
-
     var color_j = d3.scaleOrdinal(d3.schemeCategory20);
-
     var tooltip_j = d3.select("body")
         .append("div")
         .style("position", "absolute")
@@ -474,22 +450,18 @@
         .style("width", "140px")
         .attr("x", 140)
         .text("");
-
     var button1 = document.getElementById('buttonReturn')
     button1.style.position = "absolute";
     button1.style.left = "70px";
     button1.style.top = "20px";
-
     var button2 = document.getElementById('buttonChange')
     button2.style.position = "absolute";
     button2.style.left = (width_j-70) + 'px';
     button2.style.top = "150px";
-
     var button3 = document.getElementById('buttonGraph')
     button3.style.position = "absolute";
     button3.style.left = (width_j-150) + 'px';
     button3.style.top = "20px";
-
     var showArriv = "1";
     var showEvolution = "0";
     function GraphTimeArriv() {
@@ -501,16 +473,11 @@
             .attr("id", "svg_j_1")
             .append("g")
             .attr("transform", "translate(" + margin_j.left_j + "," + margin_j.top_j + ")");
-
         d3.csv("data/arrivals.csv", function (error, data) {
-
             var labelVar_j_1 = 'year';
-
             var varNames_j_1 = d3.keys(data[0])
                 .filter(function (key) { return key !== labelVar_j_1;});
-
             color_j.domain(varNames_j_1);
-
             var seriesData_j_1 = varNames_j_1.map(function (name) {
                 return {
                     name: name,
@@ -519,11 +486,8 @@
                     })
                 };
             });
-
             x_j.domain(data.map(function (d) { return d.year; }));
-
             y_j.domain([0,0]);
-
             svg_j_1.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0," + height_j + ")")
@@ -537,18 +501,15 @@
                 .attr("dy", "0.71em")
                 .attr("fill", "#000")
                 .text("Number of people (in thousands)");
-
             var legend_j_1 = svg_j_1.selectAll(".legend")
                 .data(color_j.domain())
                 .enter().append("g")
                 .attr("class", "legend")
                 .attr("transform", function(d, i) { return "translate(0," + i * 13.5 + ")"; });
-
             var series_j_1 = svg_j_1.selectAll(".series")
                 .data(seriesData_j_1)
                 .enter().append("g")
                 .attr("class", "series");
-
             series_j_1.append("path")
                 .attr("class", "line")
                 .attr("d", function (d) { return line_j(d.values); })
@@ -567,7 +528,6 @@
                     }
                 });
             var	maximum_j_1 = 0;
-
             legend_j_1.append("circle")
                 .style("fill", function(d) { return color_j(d); })
                 .attr("r", 5)
@@ -581,7 +541,6 @@
                     d3.select(this).attr("r", 5);
                 })
                 .on("click", function(d) {
-
                     d3.selectAll(".line")
                         .filter(function(e) {
                             return e.name == d;
@@ -600,7 +559,6 @@
                                 return 1;
                             }
                         });
-
                     var maximum_j_1 = d3.max(seriesData_j_1, function(e) {
                         return d3.max(e.values, function (c) {
                             if ((d3.selectAll(".line")
@@ -611,22 +569,17 @@
                             else { return 0; }
                         });
                     });
-
                     y_j.domain([0, maximum_j_1]);
-
                     svg_j_1.select(".y.axis")
                         .transition()
                         .duration(1000)
                         .call(yAxis_j);
-
                     svg_j_1.selectAll(".line")
                         .transition()
                         .duration(1000)
                         .attr("d", function(d) { return line_j(d.values); });
-
                     tooltip_j.transition().style("opacity", 0);
                 })
-
             legend_j_1.append("text")
                 .attr("x", width_j-250)
                 .attr("y", -10)
@@ -636,7 +589,6 @@
                 .style("font-weight", "")
                 .style("fill", "grey")
                 .text(function(d) { return d; })
-
             svg_j_1.append("circle")
                 .style("fill", "black")
                 .attr("cx", width_j-110)
@@ -649,43 +601,33 @@
                     d3.select(this).attr("r", 5);
                 })
                 .on("click", function(d) {
-
                     d3.selectAll(".line").style("opacity", 1);
-
                     maximum_j = d3.max(seriesData_j_1, function (c) {
                         return d3.max(c.values, function (d) { return d.value; });
                     })
-
                     y_j.domain([
                         d3.min(seriesData_j_1, function (c) {
                             return d3.min(c.values, function (d) { return d.value; });
                         }), maximum_j ]);
-
                     svg_j_1.select(".y.axis")
                         .transition()
                         .duration(1000)
                         .call(yAxis_j);
-
                     svg_j_1.selectAll(".line")
                         .transition()
                         .duration(1000)
                         .attr("d", function (d) { return line_j(d.values); });
-
                     tooltip_j.transition().style("opacity", 0);
-
                     legend_j_1.selectAll("text")
                         .style("font-weight", "bold")
                         .style("fill", "black");
-
                 });
-
             svg_j_1.append("text")
                 .attr("x", width_j-100)
                 .attr("y", -10)
                 .attr("dy", ".25em")
                 .style("text-anchor", "start")
                 .text("Show all countries");
-
             svg_j_1.append("circle")
                 .style("fill", "white")
                 .attr("cx", width_j-110)
@@ -700,42 +642,30 @@
                     d3.select(this).attr("r", 5);
                 })
                 .on("click", function(d) {
-
                     d3.selectAll(".line").style("opacity", 0);
-
                     maximum_j = 0;
-
                     y_j.domain([0, 0]);
-
                     svg_j_1.select(".y.axis")
                         .transition()
                         .duration(1000)
                         .call(yAxis_j);
-
                     svg_j_1.selectAll(".line")
                         .transition()
                         .duration(1000)
                         .attr("d", function (d) { return line_j(d.values); });
-
                     tooltip_j.transition().style("opacity", 0);
-
                     legend_j_1.selectAll("text")
                         .style("font-weight", "")
                         .style("fill", "grey");
-
                 });
-
             svg_j_1.append("text")
                 .attr("x", width_j-100)
                 .attr("y", 10)
                 .attr("dy", ".25em")
                 .style("text-anchor", "start")
                 .text("Hide all countries");
-
         });
-
     }
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     function GraphTimeDepar() {
         d3.select("#svg_j_1").remove();
@@ -746,14 +676,10 @@
             .append("g")
             .attr("transform", "translate(" + margin_j.left_j + "," + margin_j.top_j + ")");
         d3.csv("data/departures.csv", function (error, data) {
-
             var labelVar_j_2 = 'year';
-
             var varNames_j_2 = d3.keys(data[0])
                 .filter(function (key) { return key !== labelVar_j_2;});
-
             color_j.domain(varNames_j_2);
-
             var seriesData_j_2 = varNames_j_2.map(function (name) {
                 return {
                     name: name,
@@ -762,11 +688,8 @@
                     })
                 };
             });
-
             x_j.domain(data.map(function (d) { return d.year; }));
-
             y_j.domain([0,0]);
-
             svg_j_2.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0," + height_j + ")")
@@ -780,18 +703,15 @@
                 .attr("dy", "0.71em")
                 .attr("fill", "#000")
                 .text("Number of people (in thousands)");
-
             var legend_j_2 = svg_j_2.selectAll(".legend")
                 .data(color_j.domain())
                 .enter().append("g")
                 .attr("class", "legend")
                 .attr("transform", function(d, i) { return "translate(0," + i * 13.5 + ")"; });
-
             var series_j_2 = svg_j_2.selectAll(".series")
                 .data(seriesData_j_2)
                 .enter().append("g")
                 .attr("class", "series");
-
             series_j_2.append("path")
                 .attr("class", "line")
                 .attr("d", function (d) { return line_j(d.values); })
@@ -810,7 +730,6 @@
                     }
                 });
             var	maximum_j_2 = 0;
-
             legend_j_2.append("circle")
                 .style("fill", function(d) { return color_j(d); })
                 .attr("r", 5)
@@ -824,7 +743,6 @@
                     d3.select(this).attr("r", 5);
                 })
                 .on("click", function(d) {
-
                     d3.selectAll(".line")
                         .filter(function(e) {
                             return e.name == d;
@@ -843,7 +761,6 @@
                                 return 1;
                             }
                         });
-
                     var maximum_j_2 = d3.max(seriesData_j_2, function(e) {
                         return d3.max(e.values, function (c) {
                             if ((d3.selectAll(".line")
@@ -854,22 +771,17 @@
                             else { return 0; }
                         });
                     });
-
                     y_j.domain([0, maximum_j_2]);
-
                     svg_j_2.select(".y.axis")
                         .transition()
                         .duration(1000)
                         .call(yAxis_j);
-
                     svg_j_2.selectAll(".line")
                         .transition()
                         .duration(1000)
                         .attr("d", function(d) { return line_j(d.values); });
-
                     tooltip_j.transition().style("opacity", 0);
                 })
-
             legend_j_2.append("text")
                 .attr("x", width_j-250)
                 .attr("y", -10)
@@ -879,7 +791,6 @@
                 .style("font-weight", "")
                 .style("fill", "grey")
                 .text(function(d) { return d; })
-
             svg_j_2.append("circle")
                 .style("fill", "black")
                 .attr("cx", width_j-110)
@@ -892,43 +803,33 @@
                     d3.select(this).attr("r", 5);
                 })
                 .on("click", function(d) {
-
                     d3.selectAll(".line").style("opacity", 1);
-
                     maximum_j = d3.max(seriesData_j_2, function (c) {
                         return d3.max(c.values, function (d) { return d.value; });
                     })
-
                     y_j.domain([
                         d3.min(seriesData_j_2, function (c) {
                             return d3.min(c.values, function (d) { return d.value; });
                         }), maximum_j ]);
-
                     svg_j_2.select(".y.axis")
                         .transition()
                         .duration(1000)
                         .call(yAxis_j);
-
                     svg_j_2.selectAll(".line")
                         .transition()
                         .duration(1000)
                         .attr("d", function (d) { return line_j(d.values); });
-
                     tooltip_j.transition().style("opacity", 0);
-
                     legend_j_2.selectAll("text")
                         .style("font-weight", "bold")
                         .style("fill", "black");
-
                 });
-
             svg_j_2.append("text")
                 .attr("x", width_j-100)
                 .attr("y", -10)
                 .attr("dy", ".25em")
                 .style("text-anchor", "start")
                 .text("Show all countries");
-
             svg_j_2.append("circle")
                 .style("fill", "white")
                 .attr("cx", width_j-110)
@@ -943,40 +844,29 @@
                     d3.select(this).attr("r", 5);
                 })
                 .on("click", function(d) {
-
                     d3.selectAll(".line").style("opacity", 0);
-
                     maximum_j = 0;
-
                     y_j.domain([0, 0]);
-
                     svg_j_2.select(".y.axis")
                         .transition()
                         .duration(1000)
                         .call(yAxis_j);
-
                     svg_j_2.selectAll(".line")
                         .transition()
                         .duration(1000)
                         .attr("d", function (d) { return line_j(d.values); });
-
                     tooltip_j.transition().style("opacity", 0);
-
                     legend_j_2.selectAll("text")
                         .style("font-weight", "")
                         .style("fill", "grey");
-
                 });
-
             svg_j_2.append("text")
                 .attr("x", width_j-100)
                 .attr("y", 10)
                 .attr("dy", ".25em")
                 .style("text-anchor", "start")
                 .text("Hide all countries");
-
         });
-
     }
     function changeView(){
         if(showArriv == "1") {
