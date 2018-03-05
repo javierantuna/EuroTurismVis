@@ -3,13 +3,13 @@
 <head>
     <title>EuroTurismVis</title>
     <div>
-        <span id="year">YEAR</span>
+        <span id="year" style="font-family: 'book antiqua'">YEAR </span>
         <span id="ArrDep1">Arrivals</span>
         <span id="ArrDep2">Departures</span>
         <span id="Authors">This project was made by Javier Antuña González and María Ramírez Mateo.</span>
         <span id="linkGithub">Click here to access <a href="https://github.com/javierantuna/EuroTurismVis">the GitHub repository</a>.</span>
         <input type="range" id="rangeInput" name="rangeInput" min="1995" max="2015" value="1995" onchange="updateTextInput(this.value);">
-        <input type="text" id="textInput" value="1995">
+        <input type="text" id="textInput" value="1995" style="font-family: 'book antiqua'">
         <span id="title" class="text-center" style="font-size: 35px; font-family: 'elephant'; font-weight: bold; color: blue; align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tourism In Europe</span>
     </div>
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -63,23 +63,23 @@
 	
 	d3.select('#ArrDep1')
 		.style("font-size", "24px")
-	.style("font-family", "book antiqua")
+		.style("font-family", "book antiqua")
         .style("text-decoration", "underline")
         .style("font-weight", "bold")
         .style("visibility", "hidden");
 	
 	d3.select('#ArrDep2')
 		.style("font-size", "24px")
-	.style("font-family", "book antiqua")
+		.style("font-family", "book antiqua")
         .style("text-decoration", "underline")
         .style("font-weight", "bold")
         .style("visibility", "hidden");
 	
 	d3.select('#Authors')
-	.style("font-family", "book antiqua");
+		.style("font-family", "book antiqua");
 	
 	d3.select('#linkGithub')
-	.style("font-family", "book antiqua");
+		.style("font-family", "book antiqua");
 		
 	d3.select("body").append("a")
     .attr("xlink:href", "http://en.wikipedia.org/wiki/")
@@ -676,6 +676,7 @@
                 .attr("y", -10)
                 .attr("dy", ".25em")
                 .style("text-anchor", "start")
+				.style("font-family", "book antiqua")
                 .text("Show all countries");
             svg_j_1.append("circle")
                 .style("fill", "white")
@@ -712,6 +713,7 @@
                 .attr("y", 10)
                 .attr("dy", ".25em")
                 .style("text-anchor", "start")
+				.style("font-family", "book antiqua")
                 .text("Hide all countries");
         });
     }
