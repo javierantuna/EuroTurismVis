@@ -5,6 +5,8 @@
         <span id="year">YEAR</span>
         <span id="ArrDep1">Arrivals</span>
         <span id="ArrDep2">Departures</span>
+        <span id="Authors">This project was made by Javier Antuna Gonzalez and Maria Ramirez Mateo.</span>
+        <span id="linkGithub">Click here to access <a href="https://github.com/javierantuna/EuroTurismVis">the GitHub repository</a>.</span>
         <input type="range" id="rangeInput" name="rangeInput" min="1995" max="2015" value="1995" onchange="updateTextInput(this.value);">
         <input type="text" id="textInput" value="1995">
         <span id="title" class="text-center" style="font-size: 35px; font-weight: bold; color: blue; align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tourism In Europe</span>
@@ -45,6 +47,16 @@
     textArrDep2.style.left = "100px";
     textArrDep2.style.top = "30px";
 	
+	var textAuthors = document.getElementById('Authors')
+    textAuthors.style.position = "absolute";
+    textAuthors.style.left = "400px";
+    textAuthors.style.top = "720px";
+	
+	var textGithub = document.getElementById('linkGithub')
+    textGithub.style.position = "absolute";
+    textGithub.style.left = "400px";
+    textGithub.style.top = "740px";
+	
 	d3.select('#ArrDep1')
 		.style("font-size", "24px")
         .style("text-decoration", "underline")
@@ -56,6 +68,29 @@
         .style("text-decoration", "underline")
         .style("font-weight", "bold")
         .style("visibility", "hidden");
+	
+	d3.select('#Authors')
+		//.style("font-size", "24px")
+        //.style("text-decoration", "underline")
+        //.style("font-weight", "bold")
+        //.style("visibility", "hidden");
+	
+	d3.select('#linkGithub')
+		//.style("font-size", "24px")
+        //.style("text-decoration", "underline")
+        //.style("font-weight", "bold")
+        //.style("visibility", "hidden");
+		
+	d3.select("body").append("a")
+    .attr("xlink:href", "http://en.wikipedia.org/wiki/")
+    .append("rect")
+    .attr("x", 400)
+    .attr("y", 800)
+    .attr("height", 100)
+    .attr("width", 200)
+    .style("fill", "lightgreen")
+    .attr("rx", 10)
+    .attr("ry", 10);
 	
     var simulation,
         leerPais,
@@ -146,7 +181,7 @@
             d3.select('#chart1').append("rect") //Recuadro del gráfico
                 .attr("x", 0)
                 .attr("y", 10)
-                .attr("height", height)
+                .attr("height", height-60)
                 .attr("width", width)
                 .style("stroke", bordercolor)
                 .style("fill", "none")
@@ -173,6 +208,8 @@
                     d3.select("#rangeInput").style("visibility", "hidden");
                     d3.select("#textInput").style("visibility", "hidden");
                     document.getElementById("buttonReturn").style.visibility = "visible";
+					textAuthors.style.top = "620px";
+					textGithub.style.top = "640px";
                     piechart();
                 });
             d3.select('#chart1').selectAll("circle")
@@ -251,7 +288,7 @@
             d3.select('#chart2').append("rect") //Recuadro del gráfico
                 .attr("x", 0)
                 .attr("y", 10)
-                .attr("height", height)
+                .attr("height", height-60)
                 .attr("width", width)
                 .style("stroke", bordercolor)
                 .style("fill", "none")
@@ -278,6 +315,8 @@
                     d3.select("#rangeInput").style("visibility", "hidden");
                     d3.select("#textInput").style("visibility", "hidden");
                     document.getElementById("buttonReturn").style.visibility = "visible";
+					textAuthors.style.top = "620px";
+					textGithub.style.top = "640px";
                     piechart();
                 });
             d3.select('#chart2').selectAll("circle")
@@ -418,6 +457,8 @@
     }
     function comeback(){
         d3.select("#pie").remove();
+		textAuthors.style.top = "720px";
+		textGithub.style.top = "740px";
         GraphByYear();
     }
     GraphByYear();
@@ -898,6 +939,8 @@
             d3.select("#year").style("visibility", "visible");
             d3.select("#rangeInput").style("visibility", "visible");
             d3.select("#textInput").style("visibility", "visible");
+			textAuthors.style.top = "720px";
+			textGithub.style.top = "740px";
             GraphByYear();
             showEvolution = "0";
         }
@@ -912,6 +955,8 @@
             d3.select("#rangeInput").style("visibility", "hidden");
             d3.select("#textInput").style("visibility", "hidden");
             document.getElementById("buttonReturn").style.visibility = "hidden";
+			textAuthors.style.top = "660px";
+			textGithub.style.top = "680px";
             GraphTimeArriv();
             showEvolution = "1";
         }
