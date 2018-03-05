@@ -152,7 +152,7 @@ Next to the list of countries, on its right side, we can see two other circles w
   </tr>
 </table>
 
-Below the "Show all countries" and "Hide all countries" buttons, we can fin the button that contains the text "Change to Departures".
+Below the "Show all countries" and "Hide all countries" buttons, we can find the button that contains the text "Change to Departures".
 
 <table border="0">
   <tr>
