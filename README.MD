@@ -4,6 +4,8 @@ The main objective of this project is not only to show which countries are leadi
 
 To do that we will use different graphics and several interactions between the web page and the user.
 
+## Tourism per year
+
 In this way we will show either the entries or the exits of each country each year or its evolution in a period. In addition, we will study for each country and year what are the numbers of entries and exits of travellers. It will allow us to compare whether the country receives or sends more people and the origin or destination of these people.
 
 The first data shown are the entries and the exits of each country each year, that is to say, the number of people who arrived in France and the number of people who left the France in the year chosen, which can be changed by the user thanks to the slider included in the left corner. So, when the user changes the year selected, the visualisation shown in the web page will change automatically.
