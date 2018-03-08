@@ -190,4 +190,6 @@ Finally, if the user wants to return to the Bubble Charts, he can do so by click
 
 The different buttons and interactions allow us to change between the different charts as many times as we want and thus we visualize in the most useful way the data on tourism in Europe.
 
+## Video
+
 Here is a link where you can find a demonstration and some explanations about the project: https://youtu.be/atqfyYmxWxI
